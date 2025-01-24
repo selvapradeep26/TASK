@@ -1,0 +1,286 @@
+body {
+  font-family: 'Arial', sans-serif;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start; /* Align content at the top */
+  min-height: 100vh;
+  background-size: cover;
+  background-image: url("https://woobewoo.com/wp-content/uploads/2018/09/Filter-by-category-and-attribute-1-1024x559.png");
+  background-position: center; /* Center the background */
+  background-attachment: fixed; /* Prevent zooming effect */
+}
+
+.app-container {
+  width: 90%; /* Increase the width of the container */
+  max-width: 1200px;
+  padding: 20px;
+  background-color: rgba(255, 255, 255, 0.8); /* Add some opacity to make the background visible */
+  border-radius: 10px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  margin-top: 20px;
+}
+
+.search-bar {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.search-input {
+  width: 100%;
+  padding: 10px;
+  font-size: 16px;
+  border-radius: 5px;
+  border: 1px solid #ddd;
+}
+
+.clear-button {
+  padding: 10px 15px;
+  margin-left: 10px;
+  background-color: #ff4d4d;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.clear-button:hover {
+  background-color: #ff1a1a;
+}
+
+.category-container {
+  margin-top: 20px;
+}
+
+.product-tiles {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+  justify-content: flex-start;
+}
+
+.product-tile {
+  width: 22%; /* Adjust product tile width */
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  text-align: center;
+  transition: transform 0.3s ease-in-out;
+}
+
+.product-tile:hover {
+  transform: scale(1.05);
+}
+
+.product-image {
+  width: 100%;
+  height: 150px;
+  object-fit: cover;
+  border-bottom: 2px solid #ddd;
+}
+
+.product-info {
+  padding: 10px;
+}
+
+.product-name {
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.product-price {
+  color: #f44336;
+  font-size: 18px;
+}
+
+.add-to-cart-button {
+  background-color: #4caf50;
+  color: white;
+  padding: 8px 12px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+.add-to-cart-button:hover {
+  background-color: #45a049;
+}
+
+.cart-button {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  padding: 10px 20px;
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  z-index: 1000; /* Ensures it stays on top */
+}
+
+.cart-button:hover {
+  background-color: #45a049;
+}
+
+.cart-container {
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 300px;
+  max-height: 100vh;
+  background-color: white;
+  box-shadow: -4px 0px 8px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  z-index: 100;
+  overflow-y: auto;
+  transform: translateX(100%);
+  transition: transform 0.3s ease-in-out;
+}
+
+.cart-container.show {
+  transform: translateX(0);
+}
+
+.cart-item {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.cart-item-image {
+  width: 50px;
+  height: 50px;
+  object-fit: cover;
+  margin-right: 10px;
+}
+
+.remove-from-cart-button {
+  background-color: #f44336;
+  color: white;
+  padding: 5px 10px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.remove-from-cart-button:hover {
+  background-color: #e53935;
+}
+.cart-container {
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 300px;
+  max-height: 100vh;
+  background-color: white;
+  box-shadow: -4px 0px 8px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  z-index: 100;
+  overflow-y: auto;
+  transform: translateX(100%);
+  transition: transform 0.3s ease-in-out;
+}
+
+.cart-container.show {
+  transform: translateX(0);
+}
+
+.cart-button {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  padding: 10px 20px;
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  z-index: 1000; /* Ensures it stays on top */
+}
+
+.cart-button:hover {
+  background-color: #45a049;
+}
+
+/* Apply the show class when cartVisible is true */
+.cart-container {
+  transform: translateX(0); /* Ensure cart is visible if cartVisible is true */
+}
+
+/* When cart is visible, it slides in from the right */
+.cart-container.show {
+  transform: translateX(-200%);  /* Bring cart into view */
+  opacity: 10;  /* Fade-in effect */
+}
+
+/* Cart button styles */
+.cart-button {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  padding: 12px 25px;
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  border-radius: 50px;  /* Rounded button */
+  font-size: 16px;
+  cursor: pointer;
+  z-index: 1000;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+  transition: background-color 0.3s ease, box-shadow 0.3s ease; /* Button hover transition */
+}
+
+/* Hover effect for cart button */
+.cart-button:hover {
+  background-color: #45a049;
+  box-shadow: 0px 6px 15px rgba(0, 0, 0, 0.3); /* Enhanced shadow on hover */
+}
+
+/* Styling the cart items list */
+.cart-item {
+  display: flex;
+  align-items: center;
+  margin-bottom: 15px;
+  padding: 10px;
+  background-color: #f9f9f9;
+  border-radius: 5px;
+  box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.1);
+  transition: background-color 0.3s ease;
+}
+
+/* Hover effect for cart items */
+.cart-item:hover {
+  background-color: #f1f1f1;
+}
+
+/* Cart item image styling */
+.cart-item-image {
+  width: 60px;
+  height: 60px;
+  object-fit: cover;
+  margin-right: 15px;
+}
+
+/* Cart item remove button styling */
+.remove-from-cart-button {
+  background-color: #f44336;
+  color: white;
+  padding: 5px 10px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background-color 0.3s ease;
+}
+
+/* Hover effect for remove button */
+.remove-from-cart-button:hover {
+  background-color: #d32f2f;
+}
