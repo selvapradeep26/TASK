@@ -1,51 +1,84 @@
-const express = require('express'); 
-const server = express();
-const port = 3000;
+const express = require('express');
+const mongoose = require('mongoose');
+const dotenv = require('dotenv');
+const cors = require('cors');
+const bodyParser = require('body-parser');
+const mongoose = require('mongoose');
 
-const item = [
-    { ID: 1, NAME: 'PRADEEP' },
-    { ID: 2, NAME: 'BOOZER' },
-    { ID: 3, NAME: 'DEACON' },
-    { ID: 4, NAME: 'SARVN' }
-];
+dotenv.config();
 
-
-server.use(express.json());
+const app = express();
 
 
-server.get('/', (req, res) => {
-    res.end("You're user");
+
+app.use(cors());
+app.use(bodyParser.json());
+
+const connectDB = async () => {
+  try {
+    await mongoose.connect(process.env.MONGO_URI, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    });
+    console.log('MongoDB connected successfully');
+  } catch (err) {
+    console.error('MongoDB connection error:', err.message);
+    process.exit(1); 
+  }
+};
+connectDB();
+app.use((req, res, next) => {
+  res.status(404).json({ success: false, error: 'Route not found' });
 });
 
-server.get('/user', (req, res) => {
-    res.end("You're User");
-});
-
-
-server.get('/PRO', (req, res) => {
-    res.json(item);
-});
-
-
-server.post('/PRO', (req, res) => {
-    const newitem = { ID: item.length + 1, NAME: req.body.NAME }; 
-    item.push(newitem); 
-    res.status(201).json(newitem);
-});
-
-
-server.delete('/PRO/:id', (req, res) => {
-    const { id } = req.params; 
-    const ItemIndex = item.findIndex((item) => item.ID === parseInt(id, 10)); 
-    if (ItemIndex !== -1) {
-        const deletedItem = item.splice(ItemIndex, 1); 
-        res.json(deletedItem[0]); 
-    } else {
-        res.status(404).json({ message: "Item not found" });
-    }
+app.use((err, req, res, next) => {
+  console.error('Error:', err.message);
+  res.status(err.status || 500).json({
+    success: false,
+    error: err.message || 'Internal Server Error',
+  });
 });
 
 
-server.listen(port, () => {
-    console.log(`Server is running on http://localhost:${port}`);
+const userSchema = new mongoose.Schema({
+  name: {
+    type: String,
+    required: true,
+    trim: true,
+  },
+  email: {
+    type: String,
+    required: true,
+    unique: true,
+    trim: true,
+    lowercase: true,
+  },
+  password: {
+    type: String,
+    required: true,
+  },
+  role: {
+    type: String,
+    enum: ['user', 'admin'],
+    default: 'user',
+  },
+  createdAt: {
+    type: Date,
+    default: Date.now,
+  },
+  updatedAt: {
+    type: Date,
+    default: Date.now,
+  },
 });
+userSchema.pre('save', function (next) {
+  this.updatedAt = Date.now();
+  next();
+});
+const User = mongoose.model('User', userSchema);
+
+module.exports = User;
+
+
+const PORT = process.env.PORT || 5000;
+app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
